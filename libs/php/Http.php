@@ -33,9 +33,11 @@ class Livefyre_http {
         if ( $args['method'] == 'POST' ) {
             curl_setopt_array($ch, array(
                 CURLOPT_POST            => 1,
-                CURLOPT_POSTFIELDS      => http_build_query($args['data']),
                 CURLOPT_HTTPHEADER      => array("Content-Type: $this->default_content_type")
             ));
+            if (isset($args['data'])) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($args['data']));
+            }
         }
         curl_setopt_array($ch, array(
             CURLOPT_TIMEOUT         => $args[ 'timeout' ],
